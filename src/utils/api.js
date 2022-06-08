@@ -3,8 +3,7 @@ import _superagent from 'superagent';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-// export const API_ROOT = 'http://localhost:4000/';  //LOCAL SERVER
-export const API_ROOT = 'https://stephblog-api.herokuapp.com/';  //TESTING SERVER
+export const API_ROOT = 'http://127.0.0.1:5000/';  //LOCAL SERVER
 
 const responseBody = res => res.body;
 
@@ -25,15 +24,15 @@ const requests = {
 
 const Question = {
     save: (data) =>
-        requests.post(`blogs`, data),
-    load: () =>
-        requests.get(`blogs`)
+        requests.post(`questions`, data),
+    // load: () =>
+    //     requests.get(`blogs`)
 }
 const Catergory = {
-    save: (data) =>
-        requests.post(`blogs`, data),
-    load: () =>
-        requests.get(`blogs`)
+    // save: (data) =>
+    //     requests.post(`blogs`, data),
+    // load: () =>
+    //     requests.get(`blogs`)
 }
 
 const api = {
