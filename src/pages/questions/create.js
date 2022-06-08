@@ -1,20 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function CreateQuestion() {
+    const [itemToEdit, setItemToEdit]= useState({
+        question:"",
+        answer:"",
+        category:"",
+        difficulty:""
+    })
+
     return (
             <div>
                 <form className='col-md-6 mx-auto mt-7'>
                 <div className="form-group">
-                        <label htmlFor="exampleFormControlTextarea1">Question</label>
-                        <textarea className="form-control" id="exampleFormControlTextarea1" rows={3} defaultValue={""} />
+                        <label htmlFor="question">Question</label>
+                        <textarea 
+                        className="form-control" 
+                        id="question"
+                        name="question"
+                        rows={3}
+                        defaultValue={""} />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlInput1">Answer</label>
-                        <input type="text" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+                        <label htmlFor="answer">Answer</label>
+                        <input 
+                        type="text" 
+                        className="form-control" 
+                        id="answer" 
+                        name="answer" 
+                        placeholder="Answer" />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlSelect1">Difficulty</label>
-                        <select className="form-control" id="exampleFormControlSelect1">
+                        <label htmlFor="difficulity">Difficulty</label>
+                        <select 
+                        className="form-control" 
+                        id="difficulity"
+                        name="difficulity"
+                        >
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -23,8 +44,12 @@ export default function CreateQuestion() {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="exampleFormControlSelect1">Category</label>
-                        <select className="form-control" id="exampleFormControlSelect1">
+                        <label htmlFor="catergory">Category</label>
+                        <select 
+                        className="form-control" 
+                        id="catergory"
+                        name="catergory"
+                        >
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
