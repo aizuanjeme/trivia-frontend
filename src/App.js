@@ -1,6 +1,7 @@
 import React, {  Suspense } from 'react'
 import './App.css';
 import AppLoading from './components/apploading';
+import Header from './components/header';
 import RouterPage from './routerPage';
 
 
