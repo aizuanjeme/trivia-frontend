@@ -32,7 +32,9 @@ const Catergory = {
     save: (data) =>
         requests.post(`categories`, data),
     load: () =>
-        requests.get(`categories`)
+        requests.get(`categories`),
+    loadQuestionById: (id) =>
+        requests.get(`categories/${id}/questions`)
 }
 
 const api = {
