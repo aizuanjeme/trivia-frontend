@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
+import Header from '../../components/header';
 import api from '../../utils/api';
 
 export default function CreateQuestion() {
@@ -51,6 +52,8 @@ export default function CreateQuestion() {
     }
 
     return (
+        <>
+        <Header/>
         <div>
             <div className="mt-1 d-flex float-right align-item-center">
                 <button
@@ -118,5 +121,6 @@ export default function CreateQuestion() {
 
             </form>
         </div>
+        </>
     )
 }
