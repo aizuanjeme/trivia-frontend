@@ -25,8 +25,10 @@ const requests = {
 const Question = {
     save: (data) =>
         requests.post(`questions`, data),
-    // load: () =>
-    //     requests.get(`blogs`)
+    rate: (id, data) =>
+        requests.patch(`questions/${id}`, data),
+    load: (page) =>
+        requests.get(`questions?page=${page}`)
 }
 const Catergory = {
     save: (data) =>
