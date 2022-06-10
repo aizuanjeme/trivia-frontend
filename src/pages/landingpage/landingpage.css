@@ -37,3 +37,18 @@
     width: 80%;
     margin: auto;
   }
+  button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  .on {
+    color: orange;
+  }
+  .off {
+    color: blanchedalmond;
+  }
+  .star-rating{
+   font-size: 30px;
+  }
