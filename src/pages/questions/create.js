@@ -13,7 +13,8 @@ export default function CreateQuestion() {
         question: "",
         answer: "",
         category: "",
-        difficulty: ""
+        difficulty: "",
+        rating:""
     })
 
     const handleOnChange = (e) => {
@@ -118,6 +119,22 @@ export default function CreateQuestion() {
                         ))}
                     </select>
                 </div>
+                <div className="form-group">
+                    <label htmlFor="rating">Rating</label>
+                    <select
+                        className="form-control"
+                        id="rating"
+                        name="rating"
+                        {...register("rating", { required: true, onChange: (e) => { handleOnChange(e) } })}
+                    >
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+
 
             </form>
         </div>
