@@ -28,7 +28,9 @@ const Question = {
     rate: (id, data) =>
         requests.patch(`questions/${id}`, data),
     load: (page) =>
-        requests.get(`questions?page=${page}`)
+        requests.get(`questions?page=${page}`),
+    delete: (id) =>
+        requests.del(`questions/${id}`)
 }
 const Catergory = {
     save: (data) =>
