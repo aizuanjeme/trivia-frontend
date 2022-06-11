@@ -52,3 +52,6 @@
   .star-rating{
    font-size: 30px;
   }
+  span{
+    cursor: pointer;
+  }

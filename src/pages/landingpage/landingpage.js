@@ -42,6 +42,22 @@ export default function LandingPage() {
         }
     }
 
+    const deleteQuestion = async(id) => {
+        const response = await api.Question.delete(id);
+        if(response.success){
+            const response = await api.Question.load(page);
+            const catergories = response.categories
+            const count = response.totalCount;
+            const limit = response.limit
+            setLimit(limit)
+            setPageCount(Math.ceil(count / limit))
+            setQuestions(response.data)
+            setCategories(catergories)
+            setApis(true)
+    
+        }
+    }
+
     const getQuestions = async (id) => {
         const responses = await api.Catergory.loadQuestionById(id)
         const count = responses.totalCount;
@@ -53,13 +69,9 @@ export default function LandingPage() {
         setApis(false)
     }
 
-    const getAllQuestions = async (id) => {
+    const getAllQuestions = async () => {
         const response = await api.Question.load(page);
         const catergories = response.categories
-        // const defaultCategory = catergories.data[0]
-        // if (defaultCategory) {
-        // const defaultCat = Number
-        // const responses = await api.Catergory.loadQuestionById(defaultCategory.id)
         const count = response.totalCount;
         const limit = response.limit
         setLimit(limit)
@@ -146,12 +158,21 @@ export default function LandingPage() {
                                                                 );
                                                             })}
                                                         </div>
-                                                        <span
-                                                            className="badge ml-2 bg-success text-white"
-                                                            style={{ fontSize: ".7rem" }} onClick={() => showAnswer(question.id)}
-                                                        >
-                                                            {showAns ? "Close Answer" : "Show Answer"}
-                                                        </span>
+                                                        <div>
+                                                            <span
+                                                                className="badge ml-2 bg-success text-white"
+                                                                style={{ fontSize: ".7rem" }} onClick={() => showAnswer(question.id)}
+                                                            >
+                                                                {showAns ? "Close Answer" : "Show Answer"}
+                                                            </span>
+                                                            <span
+                                                                className="badge ml-2 bg-danger text-white"
+                                                                style={{ fontSize: ".7rem" }}
+                                                            onClick={() => deleteQuestion(question.id)}
+                                                            >
+                                                                delete
+                                                            </span>
+                                                        </div>
                                                         {showAns && <p className="des m-1 ">
                                                             {question.answer}
                                                         </p>}
