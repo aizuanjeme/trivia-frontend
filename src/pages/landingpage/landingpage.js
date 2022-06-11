@@ -9,21 +9,25 @@ export default function LandingPage() {
     const [showAns, setShowAns] = useState(false)
     const [pageCount, setPageCount] = useState(0);
     const [limits, setLimit] = useState(0);
-    const page =1
+    const [apis, setApis] = useState(false);
+    const [ids, setIds] = useState();
+    const page = 1
     useEffect(() => {
         const loadCategories = async () => {
             const response = await api.Question.load(page);
             const catergories = response.categories
             // const defaultCategory = catergories.data[0]
             // if (defaultCategory) {
-                // const defaultCat = Number
-                // const responses = await api.Catergory.loadQuestionById(defaultCategory.id)
-                const count = response.totalCount;
-                const limit = response.limit
-                setLimit(limit)
-                setPageCount(Math.ceil(count / limit))    
-                setQuestions(response.questions)
-                setCategories(catergories)
+            // const defaultCat = Number
+            // const responses = await api.Catergory.loadQuestionById(defaultCategory.id)
+            const count = response.totalCount;
+            const limit = response.limit
+            setLimit(limit)
+            setPageCount(Math.ceil(count / limit))
+            setQuestions(response.data)
+            setCategories(catergories)
+            setApis(true)
+
             // }
         };
         loadCategories();
@@ -40,34 +44,63 @@ export default function LandingPage() {
 
     const getQuestions = async (id) => {
         const responses = await api.Catergory.loadQuestionById(id)
+        const count = responses.totalCount;
+        const limit = responses.limit
+        setLimit(limit)
+        setPageCount(Math.ceil(count / limit))
         setQuestions(responses.data)
+        setIds(id)
+        setApis(false)
     }
 
+    const getAllQuestions = async (id) => {
+        const response = await api.Question.load(page);
+        const catergories = response.categories
+        // const defaultCategory = catergories.data[0]
+        // if (defaultCategory) {
+        // const defaultCat = Number
+        // const responses = await api.Catergory.loadQuestionById(defaultCategory.id)
+        const count = response.totalCount;
+        const limit = response.limit
+        setLimit(limit)
+        setPageCount(Math.ceil(count / limit))
+        setQuestions(response.data)
+        setCategories(catergories)
+        setApis(true)
+    }
+
+
     const rateQuestion = async (id, index) => {
-        const payload ={
-            "rating" : index
+        const payload = {
+            "rating": index
         }
         const response = await api.Question.rate(id, (payload))
-        if(response.success){
+        if (response.success) {
             const responses = await api.Catergory.loadQuestionById(response.categoryId)
-        setQuestions(responses.data)
+            setQuestions(responses.data)
         }
     }
 
     const handlePageClick = async (selectedPage) => {
         let currentPage = selectedPage.selected + 1;
-            const {  questions  } = await api.Question.load(currentPage);
-            setQuestions(questions);
+        if (apis === true) {
+            const { data } = await api.Question.load(currentPage);
+            setQuestions(data);
+        } else {
+            const { data } = await api.Catergory.loadQuestionById(ids, currentPage);
+            setQuestions(data);
+        }
 
-            window.scrollTo(0, 0)
+        window.scrollTo(0, 0)
     };
 
     return (
         <>
             <Header />
             <div className='row mt-5'>
-                <div className='col-md-4 col-2'>
+                <div className='col-md-4 col-2 p-4'>
                     <ul>
+                        <li onClick={() => { getAllQuestions() }}>All</li>
                         {categories.map((cat) => (
                             <li
                                 key={cat.id}
@@ -106,7 +139,7 @@ export default function LandingPage() {
                                                                         key={index}
                                                                         name='rating'
                                                                         className={index <= question.rating ? "on" : "off"}
-                                                                        onClick={() =>rateQuestion(question.id, index )}
+                                                                        onClick={() => rateQuestion(question.id, index)}
                                                                     >
                                                                         <span className="star">&#9733;</span>
                                                                     </button>
@@ -132,31 +165,37 @@ export default function LandingPage() {
                     </div>
                 </div>
             </div>
-            <div className='row '>
-            <div className="mx-auto">
-                <nav aria-label="Page navigation example" style={{ zIndex: "auto" }}>
-                    <ReactPaginate
-                        previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={"..."}
-                        pageCount={pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={3}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination justify-content-center"}
-                        pageClassName={"page-item"}
-                        pageLinkClassName={"page-link"}
-                        previousClassName={"page-item"}
-                        previousLinkClassName={"page-link"}
-                        nextClassName={"page-item"}
-                        nextLinkClassName={"page-link"}
-                        breakClassName={"page-item"}
-                        breakLinkClassName={"page-link"}
-                        activeClassName={"active"}
-                    />
-                </nav >
-            </div >
-        </div >
+            {
+                questions.length === 0 &&
+                <div className='row'>
+                    <strong className='mx-auto mt-5 h3'>No Question Record</strong>
+                </div>
+            }
+            {questions.length > 0 && <div className='row '>
+                <div className="mx-auto">
+                    <nav aria-label="Page navigation example" style={{ zIndex: "auto" }}>
+                        <ReactPaginate
+                            previousLabel={"previous"}
+                            nextLabel={"next"}
+                            breakLabel={"..."}
+                            pageCount={pageCount}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={3}
+                            onPageChange={handlePageClick}
+                            containerClassName={"pagination justify-content-center"}
+                            pageClassName={"page-item"}
+                            pageLinkClassName={"page-link"}
+                            previousClassName={"page-item"}
+                            previousLinkClassName={"page-link"}
+                            nextClassName={"page-item"}
+                            nextLinkClassName={"page-link"}
+                            breakClassName={"page-item"}
+                            breakLinkClassName={"page-link"}
+                            activeClassName={"active"}
+                        />
+                    </nav >
+                </div >
+            </div >}
         </>
     )
 }
